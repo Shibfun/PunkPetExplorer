@@ -187,50 +187,58 @@
                     myPetsSection.innerHTML = '<div class="pet-info" style="text-align: center; width: 100%;">No pets owned yet.</div>';
                 } else {
                     for (let petId of petIds) {
-                        const petData = await contract.methods.getPetData(petId).call();
-                        const petCard = document.createElement('div');
-                        petCard.className = 'pet-card';
-                        const imgSrc = `images/${petData.petType}.png`;
-                        const canExplorePaid = Date.now() / 1000 >= Number(petData.nextPaidExploreTime) && Number(petData.remainingPaidExplorations) > 0;
-                        const noneBalance = await noneContract.methods.balanceOf(account).call();
-                        const hasEnoughNone = web3.utils.toBN(noneBalance).gte(web3.utils.toBN(web3.utils.toWei("10000000", "ether")));
-                        petCard.innerHTML = `
-                            <img src="${imgSrc}" alt="Pet #${petData.petType}" onerror="this.src='images/1.png';">
-                            <div class="pet-id">Pet #${petData.petType} (ID: ${petId})</div>
-                            <div class="pet-info">Fed: ${petData.feedCount} times</div>
-                            <div class="pet-info">Free Left: ${petData.remainingFreeExplorations}</div>
-                            <div class="pet-info">Paid Left: ${petData.remainingPaidExplorations}</div>
-                            <div class="pet-info">Next Paid: ${canExplorePaid ? 'Now' : formatTimeUntil(petData.nextPaidExploreTime)}</div>
-                            <div class="attributes-panel">
-                                <div class="attribute">Rebel Level: <span>${petData.attributes.rebelLevel}</span> - How disobedient or independent.</div>
-                                <div class="attribute">Pixel Style: <span>${petData.attributes.pixelStyle}</span> - Defines appearance and rarity.</div>
-                                <div class="attribute">Energy Core: <span>${petData.attributes.energyCore}</span> - Vitality source, affects activity.</div>
-                                <div class="attribute">Code IQ: <span>${petData.attributes.codeIQ}</span> - Digital intelligence for skills.</div>
-                                <div class="attribute">Punk Cred: <span>${petData.attributes.punkCred}</span> - Street fame for rare interactions.</div>
-                                <div class="attribute">Color Saturation: <span>${petData.attributes.colorSaturation}</span> - Pixel color depth.</div>
-                                <div class="attribute">Chaos Vibe: <span>${petData.attributes.chaosVibe}</span> - Tendency for chaos or surprises.</div>
-                                <div class="attribute">Loyalty Bit: <span>${petData.attributes.loyaltyBit}</span> - Bond strength with you.</div>
-                                <div class="attribute">Chain Legacy: <span>${petData.attributes.chainLegacy}</span> - Shibarium lineage value.</div>
-                            </div>`;
-                        const freeExploreButton = document.createElement('button');
-                        freeExploreButton.textContent = 'Free Explore';
-                        freeExploreButton.disabled = Number(petData.remainingFreeExplorations) <= 0;
-                        freeExploreButton.onclick = () => explorePet(petId, false);
-                        petCard.appendChild(freeExploreButton);
+                        try {
+                            const petData = await contract.methods.getPetData(petId).call({ from: account });
+                            const petCard = document.createElement('div');
+                            petCard.className = 'pet-card';
+                            const imgSrc = `images/${petData.petType}.png`;
+                            const canExplorePaid = Date.now() / 1000 >= Number(petData.nextPaidExploreTime) && Number(petData.remainingPaidExplorations) > 0;
+                            const noneBalance = await noneContract.methods.balanceOf(account).call();
+                            const hasEnoughNone = web3.utils.toBN(noneBalance).gte(web3.utils.toBN(web3.utils.toWei("10000000", "ether")));
+                            petCard.innerHTML = `
+                                <img src="${imgSrc}" alt="Pet #${petData.petType}" onerror="this.src='images/1.png';">
+                                <div class="pet-id">Pet #${petData.petType} (ID: ${petId})</div>
+                                <div class="pet-info">Fed: ${petData.feedCount} times</div>
+                                <div class="pet-info">Free Left: ${petData.remainingFreeExplorations}</div>
+                                <div class="pet-info">Paid Left: ${petData.remainingPaidExplorations}</div>
+                                <div class="pet-info">Next Paid: ${canExplorePaid ? 'Now' : formatTimeUntil(petData.nextPaidExploreTime)}</div>
+                                <div class="attributes-panel">
+                                    <div class="attribute">Rebel Level: <span>${petData.attributes.rebelLevel}</span></div>
+                                    <div class="attribute">Pixel Style: <span>${petData.attributes.pixelStyle}</span></div>
+                                    <div class="attribute">Energy Core: <span>${petData.attributes.energyCore}</span></div>
+                                    <div class="attribute">Code IQ: <span>${petData.attributes.codeIQ}</span></div>
+                                    <div class="attribute">Punk Cred: <span>${petData.attributes.punkCred}</span></div>
+                                    <div class="attribute">Color Saturation: <span>${petData.attributes.colorSaturation}</span></div>
+                                    <div class="attribute">Chaos Vibe: <span>${petData.attributes.chaosVibe}</span></div>
+                                    <div class="attribute">Loyalty Bit: <span>${petData.attributes.loyaltyBit}</span></div>
+                                    <div class="attribute">Chain Legacy: <span>${petData.attributes.chainLegacy}</span></div>
+                                </div>`;
+                            const freeExploreButton = document.createElement('button');
+                            freeExploreButton.textContent = 'Free Explore';
+                            freeExploreButton.disabled = Number(petData.remainingFreeExplorations) <= 0;
+                            freeExploreButton.onclick = () => explorePet(petId, false);
+                            petCard.appendChild(freeExploreButton);
 
-                        const paidExploreButton = document.createElement('button');
-                        paidExploreButton.textContent = 'NONE Explore';
-                        paidExploreButton.disabled = !canExplorePaid;
-                        paidExploreButton.onclick = () => explorePet(petId, true);
-                        petCard.appendChild(paidExploreButton);
+                            const paidExploreButton = document.createElement('button');
+                            paidExploreButton.textContent = 'NONE Explore';
+                            paidExploreButton.disabled = !canExplorePaid;
+                            paidExploreButton.onclick = () => explorePet(petId, true);
+                            petCard.appendChild(paidExploreButton);
 
-                        const increaseButton = document.createElement('button');
-                        increaseButton.textContent = 'Add 10 NONE Explorations';
-                        increaseButton.disabled = !hasEnoughNone;
-                        increaseButton.onclick = () => increaseExplorationCount(petId);
-                        petCard.appendChild(increaseButton);
+                            const increaseButton = document.createElement('button');
+                            increaseButton.textContent = 'Add 10 NONE Explorations';
+                            increaseButton.disabled = !hasEnoughNone;
+                            increaseButton.onclick = () => increaseExplorationCount(petId);
+                            petCard.appendChild(increaseButton);
 
-                        myPetsSection.appendChild(petCard);
+                            myPetsSection.appendChild(petCard);
+                        } catch (error) {
+                            console.error(`Error loading pet ${petId}:`, error.message);
+                            const petCard = document.createElement('div');
+                            petCard.className = 'pet-card';
+                            petCard.innerHTML = `<div class="pet-info">Error loading pet ${petId}: Permission denied</div>`;
+                            myPetsSection.appendChild(petCard);
+                        }
                     }
                 }
             } catch (error) {
