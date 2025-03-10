@@ -14,55 +14,60 @@
             --card-bg: #2D383A;
             --text-color: #FF9100;
             --header-text-color: #FFFFFF;
-            --border-radius: 8px;
-            --pixel-border: 2px solid #FF9100;
-            --shadow: 0 4px 8px rgba(255, 145, 0, 0.3);
+            --border-radius: 10px;
+            --pixel-border: 3px solid #FF9100;
+            --shadow: 0 6px 12px rgba(255, 145, 0, 0.4);
             --transition-speed: 0.3s;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Comic Neue', cursive; }
-        body { background: var(--background-color); color: var(--text-color); padding: 10px; min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; }
-        .container { width: 100%; max-width: 400px; background: var(--card-bg); border: var(--pixel-border); border-radius: var(--border-radius); padding: 15px; box-shadow: var(--shadow); overflow: hidden; }
-        .header { background: var(--primary-color); padding: 10px; border: var(--pixel-border); border-radius: var(--border-radius); text-align: center; font-size: 20px; margin-bottom: 10px; color: var(--header-text-color); box-shadow: var(--shadow); display: flex; justify-content: center; align-items: center; }
-        .header img { width: 30px; height: 30px; margin-right: 8px; image-rendering: pixelated; }
-        .connect-section { display: flex; justify-content: center; margin-bottom: 10px; }
-        .connect-section button { padding: 8px 16px; background: var(--primary-color); color: var(--secondary-color); border: var(--pixel-border); border-radius: var(--border-radius); cursor: pointer; font-size: 12px; transition: transform var(--transition-speed), background var(--transition-speed); box-shadow: var(--shadow); max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        body { background: var(--background-color); color: var(--text-color); padding: 15px; min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; }
+        .container { width: 100%; max-width: 450px; background: var(--card-bg); border: var(--pixel-border); border-radius: var(--border-radius); padding: 20px; box-shadow: var(--shadow); overflow: hidden; }
+        .header { background: var(--primary-color); padding: 15px; border: var(--pixel-border); border-radius: var(--border-radius); text-align: center; font-size: 28px; margin-bottom: 15px; color: var(--header-text-color); box-shadow: var(--shadow); display: flex; justify-content: center; align-items: center; }
+        .header img { width: 40px; height: 40px; margin-right: 10px; image-rendering: pixelated; }
+        .connect-section { display: flex; justify-content: center; margin-bottom: 15px; }
+        .connect-section button { padding: 10px 20px; background: var(--primary-color); color: var(--secondary-color); border: var(--pixel-border); border-radius: var(--border-radius); cursor: pointer; font-size: 16px; transition: transform var(--transition-speed), background var(--transition-speed); box-shadow: var(--shadow); max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .connect-section button:hover { background: #E67E00; transform: translateY(-2px); }
         .connect-section button:disabled { background: #555555; cursor: not-allowed; transform: none; }
-        .section-title { font-size: 18px; margin: 15px 0 10px; text-align: center; color: var(--primary-color); }
-        .pets-section { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
-        .pet-card { background: var(--card-bg); border: var(--pixel-border); border-radius: var(--border-radius); padding: 10px; box-shadow: var(--shadow); transition: transform var(--transition-speed); width: 100%; }
-        .pet-card:hover { transform: translateY(-2px); }
-        .pet-card img { width: 40px; height: 40px; margin: 0 auto 8px; border: 2px solid #FF9100; border-radius: 4px; image-rendering: pixelated; display: block; }
-        .pet-card .pet-id, .pet-card .pet-info { font-size: 10px; margin-bottom: 5px; color: var(--text-color); text-align: center; }
-        .attributes-panel { margin-top: 8px; padding: 6px; background: #222C2E; border: var(--pixel-border); border-radius: 4px; }
-        .attribute { font-size: 9px; margin: 3px 0; color: var(--text-color); }
-        .attribute span { color: var(--secondary-color); }
-        .pet-card button { padding: 5px; background: var(--primary-color); color: var(--secondary-color); border: var(--pixel-border); border-radius: var(--border-radius); cursor: pointer; font-size: 9px; width: 48%; margin: 3px 1%; transition: transform var(--transition-speed), background var(--transition-speed); box-shadow: var(--shadow); display: inline-block; }
+        .section-title { font-size: 24px; margin: 20px 0 15px; text-align: center; color: var(--primary-color); }
+        .pets-section { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+        .pet-card { background: var(--card-bg); border: var(--pixel-border); border-radius: var(--border-radius); padding: 15px; box-shadow: var(--shadow); transition: transform var(--transition-speed); width: 100%; }
+        .pet-card:hover { transform: translateY(-3px); }
+        .pet-card img { width: 60px; height: 60px; margin: 0 auto 10px; border: 3px solid #FF9100; border-radius: 6px; image-rendering: pixelated; display: block; }
+        .pet-card .pet-id { font-size: 18px; margin-bottom: 8px; color: var(--text-color); text-align: center; font-weight: bold; }
+        .pet-card .pet-info { font-size: 14px; margin-bottom: 6px; color: var(--text-color); text-align: center; }
+        .attributes-panel { margin-top: 10px; padding: 10px; background: #222C2E; border: var(--pixel-border); border-radius: 6px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+        .attribute { font-size: 12px; color: var(--text-color); }
+        .attribute span { color: var(--secondary-color); font-weight: bold; }
+        .button-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 2%; margin-top: 10px; }
+        .button-wrapper { text-align: center; width: 48%; margin-bottom: 10px; }
+        .pet-card button { padding: 8px; background: var(--primary-color); color: var(--secondary-color); border: var(--pixel-border); border-radius: var(--border-radius); cursor: pointer; font-size: 12px; width: 100%; transition: transform var(--transition-speed), background var(--transition-speed); box-shadow: var(--shadow); }
         .pet-card button:hover:not(:disabled) { background: #E67E00; transform: translateY(-2px); }
         .pet-card button:disabled { background: #555555; cursor: not-allowed; transform: none; }
-        .dog-section { text-align: center; margin-top: 15px; }
-        .dog-section img { width: 50px; height: 50px; margin-bottom: 8px; border: 2px solid #FF9100; border-radius: 6px; image-rendering: pixelated; }
-        .dog-message { font-size: 12px; color: var(--primary-color); font-style: italic; transition: opacity var(--transition-speed); }
-        .refresh-button { padding: 8px 16px; background: var(--primary-color); color: var(--secondary-color); border: var(--pixel-border); border-radius: var(--border-radius); cursor: pointer; font-size: 12px; transition: transform var(--transition-speed), background var(--transition-speed); box-shadow: var(--shadow); margin-top: 10px; display: block; margin-left: auto; margin-right: auto; }
+        .button-desc { font-size: 10px; color: var(--text-color); margin-top: 4px; text-align: center; opacity: 0.8; }
+        .dog-section { text-align: center; margin-top: 20px; }
+        .dog-section img { width: 60px; height: 60px; margin-bottom: 10px; border: 3px solid #FF9100; border-radius: 6px; image-rendering: pixelated; }
+        .dog-message { font-size: 14px; color: var(--primary-color); font-style: italic; transition: opacity var(--transition-speed); }
+        .refresh-button { padding: 10px 20px; background: var(--primary-color); color: var(--secondary-color); border: var(--pixel-border); border-radius: var(--border-radius); cursor: pointer; font-size: 14px; transition: transform var(--transition-speed), background var(--transition-speed); box-shadow: var(--shadow); margin-top: 15px; display: block; margin-left: auto; margin-right: auto; }
         .refresh-button:hover { background: #E67E00; transform: translateY(-2px); }
         .refresh-button:disabled { background: #555555; cursor: not-allowed; transform: none; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @media (max-width: 480px) { 
-            body { padding: 5px; } 
-            .container { max-width: 100%; padding: 8px; } 
-            .header { font-size: 16px; padding: 8px; } 
-            .header img { width: 25px; height: 25px; } 
-            .connect-section button { font-size: 10px; padding: 6px 12px; max-width: 120px; } 
-            .section-title { font-size: 14px; margin: 10px 0; } 
-            .pet-card { padding: 8px; } 
-            .pet-card img { width: 30px; height: 30px; } 
-            .pet-card .pet-id, .pet-card .pet-info { font-size: 8px; margin-bottom: 4px; } 
-            .attributes-panel { margin-top: 6px; padding: 4px; } 
-            .attribute { font-size: 7px; margin: 2px 0; } 
-            .pet-card button { font-size: 7px; padding: 4px; margin: 2px 1%; } 
-            .dog-section img { width: 35px; height: 35px; } 
-            .dog-message { font-size: 10px; } 
-            .refresh-button { font-size: 10px; padding: 6px 12px; } 
+            body { padding: 8px; } 
+            .container { max-width: 100%; padding: 10px; } 
+            .header { font-size: 20px; padding: 10px; } 
+            .header img { width: 30px; height: 30px; } 
+            .connect-section button { font-size: 12px; padding: 8px 16px; max-width: 150px; } 
+            .section-title { font-size: 18px; margin: 15px 0 10px; } 
+            .pet-card { padding: 10px; } 
+            .pet-card img { width: 40px; height: 40px; } 
+            .pet-card .pet-id { font-size: 14px; margin-bottom: 6px; } 
+            .pet-card .pet-info { font-size: 12px; margin-bottom: 4px; } 
+            .attributes-panel { padding: 8px; grid-template-columns: 1fr 1fr; gap: 4px; } 
+            .attribute { font-size: 10px; } 
+            .pet-card button { font-size: 10px; padding: 6px; } 
+            .button-desc { font-size: 8px; margin-top: 3px; } 
+            .dog-section img { width: 40px; height: 40px; } 
+            .dog-message { font-size: 12px; } 
+            .refresh-button { font-size: 12px; padding: 8px 16px; } 
         }
     </style>
 </head>
@@ -188,14 +193,14 @@
             myPetsSection.innerHTML = '';
             refreshButton.disabled = true;
             if (!web3 || !account || !contract) {
-                myPetsSection.innerHTML = '<div class="pet-info" style="text-align: center; width: 100%;">Connect wallet to view your pets.</div>';
+                myPetsSection.innerHTML = '<div class="pet-info" style="text-align: center; width: 100%; font-size: 14px;">Connect wallet to view your pets.</div>';
                 refreshButton.disabled = false;
                 return;
             }
             try {
                 const petIds = await contract.methods.getUserPetData(account).call();
                 if (!petIds.length) {
-                    myPetsSection.innerHTML = '<div class="pet-info" style="text-align: center; width: 100%;">No pets owned yet.</div>';
+                    myPetsSection.innerHTML = '<div class="pet-info" style="text-align: center; width: 100%; font-size: 14px;">No pets owned yet.</div>';
                 } else {
                     for (let petId of petIds) {
                         try {
@@ -223,25 +228,21 @@
                                     <div class="attribute">Chaos Vibe: <span>${petData.attributes.chaosVibe}</span></div>
                                     <div class="attribute">Loyalty Bit: <span>${petData.attributes.loyaltyBit}</span></div>
                                     <div class="attribute">Chain Legacy: <span>${petData.attributes.chainLegacy}</span></div>
+                                </div>
+                                <div class="button-container">
+                                    <div class="button-wrapper">
+                                        <button class="free-explore-button" ${Number(petData.remainingFreeExplorations) <= 0 ? 'disabled' : ''} onclick="explorePet(${petId}, false)">Free Explore</button>
+                                        <div class="button-desc">Explore to boost stats for free!</div>
+                                    </div>
+                                    <div class="button-wrapper">
+                                        <button class="none-explore-button" ${!canExplorePaid ? 'disabled' : ''} onclick="explorePet(${petId}, true)">NONE Explore</button>
+                                        <div class="button-desc">Explore with NONE for better boosts!</div>
+                                    </div>
+                                    <div class="button-wrapper">
+                                        <button class="increase-explore-button" ${!hasEnoughNone ? 'disabled' : ''} onclick="increaseExplorationCount(${petId})">Add 10 NONE Explorations</button>
+                                        <div class="button-desc">Pay 10000000 NONE for 10 more NONE explores.</div>
+                                    </div>
                                 </div>`;
-                            const freeExploreButton = document.createElement('button');
-                            freeExploreButton.textContent = 'Free Explore';
-                            freeExploreButton.disabled = Number(petData.remainingFreeExplorations) <= 0;
-                            freeExploreButton.onclick = () => explorePet(petId, false);
-                            petCard.appendChild(freeExploreButton);
-
-                            const paidExploreButton = document.createElement('button');
-                            paidExploreButton.textContent = 'NONE Explore';
-                            paidExploreButton.disabled = !canExplorePaid;
-                            paidExploreButton.onclick = () => explorePet(petId, true);
-                            petCard.appendChild(paidExploreButton);
-
-                            const increaseButton = document.createElement('button');
-                            increaseButton.textContent = 'Add 10 NONE Explorations';
-                            increaseButton.disabled = !hasEnoughNone;
-                            increaseButton.onclick = () => increaseExplorationCount(petId);
-                            petCard.appendChild(increaseButton);
-
                             myPetsSection.appendChild(petCard);
                         } catch (error) {
                             console.error(`Error loading pet ${petId}:`, error.message);
@@ -253,7 +254,7 @@
                     }
                 }
             } catch (error) {
-                myPetsSection.innerHTML = '<div class="pet-info" style="text-align: center; width: 100%;">Error loading pets: ' + error.message + '</div>';
+                myPetsSection.innerHTML = '<div class="pet-info" style="text-align: center; width: 100%; font-size: 14px;">Error loading pets: ' + error.message + '</div>';
             }
             refreshButton.disabled = false;
         }
