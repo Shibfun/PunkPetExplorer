@@ -74,7 +74,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
     <script>
-        const contractAddress = "0x9D1e8df8e0a720a52f1E90cD894854546a18b604";
+        const contractAddress = "0x4582F0fCc0Fb430C25DaE546BDD987Be7Db0472F";
         const contractAbi = [
             {"inputs":[],"stateMutability":"nonpayable","type":"constructor"},
             {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"uint256","name":"petId","type":"uint256"},{"indexed":false,"internalType":"uint8","name":"attributeBoosted","type":"uint8"},{"indexed":false,"internalType":"uint32","name":"newValue","type":"uint32"}],"name":"ExplorationResult","type":"event"},
@@ -87,8 +87,8 @@
             {"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"petAttributes","outputs":[{"internalType":"uint32","name":"rebelLevel","type":"uint32"},{"internalType":"uint32","name":"pixelStyle","type":"uint32"},{"internalType":"uint32","name":"energyCore","type":"uint32"},{"internalType":"uint32","name":"codeIQ","type":"uint32"},{"internalType":"uint32","name":"punkCred","type":"uint32"},{"internalType":"uint32","name":"colorSaturation","type":"uint32"},{"internalType":"uint32","name":"chaosVibe","type":"uint32"},{"internalType":"uint32","name":"loyaltyBit","type":"uint32"},{"internalType":"uint32","name":"chainLegacy","type":"uint32"}],"stateMutability":"view","type":"function"},
             {"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"petExplorationData","outputs":[{"internalType":"uint64","name":"lastPaidExploredTime","type":"uint64"},{"internalType":"uint64","name":"freeExplorations","type":"uint64"},{"internalType":"uint64","name":"paidExplorations","type":"uint64"},{"internalType":"uint64","name":"totalPaidCount","type":"uint64"}],"stateMutability":"view","type":"function"},
             {"inputs":[{"internalType":"uint256","name":"petType","type":"uint256"}],"name":"getPetTypeBoost","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserPetData","outputs":[{"internalType":"uint256[]","name":"petIds","type":"uint256[]"},{"internalType":"struct PunkPetExplorer.PetAttributes[]","name":"attributes","type":"tuple[]"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"uint256","name":"petId","type":"uint256"}],"name":"getPetData","outputs":[{"internalType":"uint256","name":"petType","type":"uint256"},{"components":[{"internalType":"uint32","name":"rebelLevel","type":"uint32"},{"internalType":"uint32","name":"pixelStyle","type":"uint32"},{"internalType":"uint32","name":"energyCore","type":"uint32"},{"internalType":"uint32","name":"codeIQ","type":"uint32"},{"internalType":"uint32","name":"punkCred","type":"uint32"},{"internalType":"uint32","name":"colorSaturation","type":"uint32"},{"internalType":"uint32","name":"chaosVibe","type":"uint32"},{"internalType":"uint32","name":"loyaltyBit","type":"uint32"},{"internalType":"uint32","name":"chainLegacy","type":"uint32"}],"internalType":"struct PunkPetExplorer.PetAttributes","name":"attributes","type":"tuple"},{"internalType":"uint64","name":"feedCount","type":"uint64"},{"internalType":"uint64","name":"freeExplorations","type":"uint64"},{"internalType":"uint64","name":"paidExplorations","type":"uint64"},{"internalType":"uint64","name":"totalPaidCount","type":"uint64"},{"internalType":"uint64","name":"remainingFreeExplorations","type":"uint64"},{"internalType":"uint64","name":"remainingPaidExplorations","type":"uint64"},{"internalType":"uint256","name":"nextPaidExploreTime","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserPetData","outputs":[{"internalType":"uint256[]","name":"petIds","type":"uint256[]"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"petId","type":"uint256"}],"name":"getPetData","outputs":[{"components":[{"internalType":"uint256","name":"petType","type":"uint256"},{"components":[{"internalType":"uint32","name":"rebelLevel","type":"uint32"},{"internalType":"uint32","name":"pixelStyle","type":"uint32"},{"internalType":"uint32","name":"energyCore","type":"uint32"},{"internalType":"uint32","name":"codeIQ","type":"uint32"},{"internalType":"uint32","name":"punkCred","type":"uint32"},{"internalType":"uint32","name":"colorSaturation","type":"uint32"},{"internalType":"uint32","name":"chaosVibe","type":"uint32"},{"internalType":"uint32","name":"loyaltyBit","type":"uint32"},{"internalType":"uint32","name":"chainLegacy","type":"uint32"}],"internalType":"struct PunkPetExplorer.PetAttributes","name":"attributes","type":"tuple"},{"internalType":"uint64","name":"feedCount","type":"uint64"},{"internalType":"uint64","name":"freeExplorations","type":"uint64"},{"internalType":"uint64","name":"paidExplorations","type":"uint64"},{"internalType":"uint64","name":"totalPaidCount","type":"uint64"},{"internalType":"uint64","name":"remainingFreeExplorations","type":"uint64"},{"internalType":"uint64","name":"remainingPaidExplorations","type":"uint64"},{"internalType":"uint256","name":"nextPaidExploreTime","type":"uint256"}],"internalType":"struct PunkPetExplorer.PetInfo","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},
             {"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
             {"inputs":[],"name":"punkPet","outputs":[{"internalType":"contract IPunkPet","name":"","type":"address"}],"stateMutability":"view","type":"function"}
         ];
@@ -105,6 +105,7 @@
             document.getElementById('connectWalletButton').addEventListener('click', connectWallet);
             setupWalletListeners();
             updateMyPets();
+            setInterval(updateMyPets, 60000);
         });
 
         async function connectWallet() {
@@ -178,60 +179,62 @@
             myPetsSection.innerHTML = '';
             if (!web3 || !account || !contract) {
                 myPetsSection.innerHTML = '<div class="pet-info" style="text-align: center; width: 100%;">Connect wallet to view your pets.</div>';
-            } else {
-                try {
-                    const [petIds, attributes] = await contract.methods.getUserPetData(account).call();
-                    if (!petIds.length) {
-                        myPetsSection.innerHTML = '<div class="pet-info" style="text-align: center; width: 100%;">No pets owned yet.</div>';
-                    } else {
-                        for (let i = 0; i < petIds.length; i++) {
-                            const petId = petIds[i];
-                            const petData = await contract.methods.getPetData(petId).call();
-                            const petCard = document.createElement('div');
-                            petCard.className = 'pet-card';
-                            const imgSrc = `images/${petData.petType}.png`;
-                            const canExplorePaid = Date.now() / 1000 >= Number(petData.nextPaidExploreTime) && Number(petData.remainingPaidExplorations) > 0;
-                            petCard.innerHTML = `
-                                <img src="${imgSrc}" alt="Pet #${petData.petType}" onerror="this.src='images/1.png';">
-                                <div class="pet-id">Pet #${petData.petType} (ID: ${petId})</div>
-                                <div class="pet-info">Fed: ${petData.feedCount} times</div>
-                                <div class="pet-info">Free Explorations: ${petData.remainingFreeExplorations}</div>
-                                <div class="pet-info">Paid Explorations: ${petData.remainingPaidExplorations}</div>
-                                <div class="pet-info">Next Paid: ${canExplorePaid ? 'Now' : formatTimeUntil(petData.nextPaidExploreTime)}</div>
-                                <div class="attributes-panel">
-                                    <div class="attribute">Rebel Level: <span>${petData.attributes.rebelLevel}</span> - How disobedient or independent.</div>
-                                    <div class="attribute">Pixel Style: <span>${petData.attributes.pixelStyle}</span> - Defines appearance and rarity.</div>
-                                    <div class="attribute">Energy Core: <span>${petData.attributes.energyCore}</span> - Vitality source, affects activity.</div>
-                                    <div class="attribute">Code IQ: <span>${petData.attributes.codeIQ}</span> - Digital intelligence for skills.</div>
-                                    <div class="attribute">Punk Cred: <span>${petData.attributes.punkCred}</span> - Street fame for rare interactions.</div>
-                                    <div class="attribute">Color Saturation: <span>${petData.attributes.colorSaturation}</span> - Pixel color depth.</div>
-                                    <div class="attribute">Chaos Vibe: <span>${petData.attributes.chaosVibe}</span> - Tendency for chaos or surprises.</div>
-                                    <div class="attribute">Loyalty Bit: <span>${petData.attributes.loyaltyBit}</span> - Bond strength with you.</div>
-                                    <div class="attribute">Chain Legacy: <span>${petData.attributes.chainLegacy}</span> - Shibarium lineage value.</div>
-                                </div>`;
-                            const freeExploreButton = document.createElement('button');
-                            freeExploreButton.textContent = 'Free Explore';
-                            freeExploreButton.disabled = Number(petData.remainingFreeExplorations) <= 0;
-                            freeExploreButton.onclick = () => explorePet(petId, false);
-                            petCard.appendChild(freeExploreButton);
+                return;
+            }
+            try {
+                const petIds = await contract.methods.getUserPetData(account).call();
+                if (!petIds.length) {
+                    myPetsSection.innerHTML = '<div class="pet-info" style="text-align: center; width: 100%;">No pets owned yet.</div>';
+                } else {
+                    for (let petId of petIds) {
+                        const petData = await contract.methods.getPetData(petId).call();
+                        const petCard = document.createElement('div');
+                        petCard.className = 'pet-card';
+                        const imgSrc = `images/${petData.petType}.png`;
+                        const canExplorePaid = Date.now() / 1000 >= Number(petData.nextPaidExploreTime) && Number(petData.remainingPaidExplorations) > 0;
+                        const noneBalance = await noneContract.methods.balanceOf(account).call();
+                        const hasEnoughNone = web3.utils.toBN(noneBalance).gte(web3.utils.toBN(web3.utils.toWei("10000000", "ether")));
+                        petCard.innerHTML = `
+                            <img src="${imgSrc}" alt="Pet #${petData.petType}" onerror="this.src='images/1.png';">
+                            <div class="pet-id">Pet #${petData.petType} (ID: ${petId})</div>
+                            <div class="pet-info">Fed: ${petData.feedCount} times</div>
+                            <div class="pet-info">Free Left: ${petData.remainingFreeExplorations}</div>
+                            <div class="pet-info">Paid Left: ${petData.remainingPaidExplorations}</div>
+                            <div class="pet-info">Next Paid: ${canExplorePaid ? 'Now' : formatTimeUntil(petData.nextPaidExploreTime)}</div>
+                            <div class="attributes-panel">
+                                <div class="attribute">Rebel Level: <span>${petData.attributes.rebelLevel}</span> - How disobedient or independent.</div>
+                                <div class="attribute">Pixel Style: <span>${petData.attributes.pixelStyle}</span> - Defines appearance and rarity.</div>
+                                <div class="attribute">Energy Core: <span>${petData.attributes.energyCore}</span> - Vitality source, affects activity.</div>
+                                <div class="attribute">Code IQ: <span>${petData.attributes.codeIQ}</span> - Digital intelligence for skills.</div>
+                                <div class="attribute">Punk Cred: <span>${petData.attributes.punkCred}</span> - Street fame for rare interactions.</div>
+                                <div class="attribute">Color Saturation: <span>${petData.attributes.colorSaturation}</span> - Pixel color depth.</div>
+                                <div class="attribute">Chaos Vibe: <span>${petData.attributes.chaosVibe}</span> - Tendency for chaos or surprises.</div>
+                                <div class="attribute">Loyalty Bit: <span>${petData.attributes.loyaltyBit}</span> - Bond strength with you.</div>
+                                <div class="attribute">Chain Legacy: <span>${petData.attributes.chainLegacy}</span> - Shibarium lineage value.</div>
+                            </div>`;
+                        const freeExploreButton = document.createElement('button');
+                        freeExploreButton.textContent = 'Free Explore';
+                        freeExploreButton.disabled = Number(petData.remainingFreeExplorations) <= 0;
+                        freeExploreButton.onclick = () => explorePet(petId, false);
+                        petCard.appendChild(freeExploreButton);
 
-                            const paidExploreButton = document.createElement('button');
-                            paidExploreButton.textContent = 'NONE Explore';
-                            paidExploreButton.disabled = !canExplorePaid;
-                            paidExploreButton.onclick = () => explorePet(petId, true);
-                            petCard.appendChild(paidExploreButton);
+                        const paidExploreButton = document.createElement('button');
+                        paidExploreButton.textContent = 'NONE Explore';
+                        paidExploreButton.disabled = !canExplorePaid;
+                        paidExploreButton.onclick = () => explorePet(petId, true);
+                        petCard.appendChild(paidExploreButton);
 
-                            const increaseButton = document.createElement('button');
-                            increaseButton.textContent = 'Add NONE Explorations';
-                            increaseButton.onclick = () => increaseExplorationCount(petId);
-                            petCard.appendChild(increaseButton);
+                        const increaseButton = document.createElement('button');
+                        increaseButton.textContent = 'Add 10 NONE Explorations';
+                        increaseButton.disabled = !hasEnoughNone;
+                        increaseButton.onclick = () => increaseExplorationCount(petId);
+                        petCard.appendChild(increaseButton);
 
-                            myPetsSection.appendChild(petCard);
-                        }
+                        myPetsSection.appendChild(petCard);
                     }
-                } catch (error) {
-                    myPetsSection.innerHTML = '<div class="pet-info" style="text-align: center; width: 100%;">Error loading pets: ' + error.message + '</div>';
                 }
+            } catch (error) {
+                myPetsSection.innerHTML = '<div class="pet-info" style="text-align: center; width: 100%;">Error loading pets: ' + error.message + '</div>';
             }
             myPetsSection.style.opacity = 1;
         }
@@ -249,11 +252,6 @@
             if (!web3 || !account) { dogMessage.innerText = "Connect wallet!"; return; }
             dogMessage.innerText = usePaidExploration ? "Exploring with NONE..." : "Exploring for free...";
             try {
-                if (usePaidExploration) {
-                    const balance = await noneContract.methods.balanceOf(account).call();
-                    const cost = web3.utils.toWei("10000000", "ether");
-                    if (web3.utils.toBN(balance).lt(web3.utils.toBN(cost))) throw new Error("Insufficient NONE for exploration");
-                }
                 await contract.methods.explore(petId, usePaidExploration).send({ from: account });
                 dogMessage.innerText = "Exploration successful!";
                 updateMyPets();
@@ -268,15 +266,13 @@
             dogMessage.innerText = "Increasing explorations...";
             try {
                 const cost = web3.utils.toWei("10000000", "ether");
-                const balance = await noneContract.methods.balanceOf(account).call();
-                if (web3.utils.toBN(balance).lt(web3.utils.toBN(cost))) throw new Error("Insufficient NONE");
                 const allowance = await noneContract.methods.allowance(account, contractAddress).call();
                 if (web3.utils.toBN(allowance).lt(web3.utils.toBN(cost))) {
                     dogMessage.innerText = "Approving NONE...";
                     await noneContract.methods.approve(contractAddress, cost).send({ from: account });
                 }
                 await contract.methods.increaseExplorationCount(petId).send({ from: account });
-                dogMessage.innerText = "Explorations increased!";
+                dogMessage.innerText = "Explorations increased by 10!";
                 updateMyPets();
             } catch (error) {
                 dogMessage.innerText = `Failed: ${error.message}`;
