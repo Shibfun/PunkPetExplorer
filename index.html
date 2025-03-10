@@ -232,15 +232,15 @@
                                 <div class="button-container">
                                     <div class="button-wrapper">
                                         <button class="free-explore-button" ${Number(petData.remainingFreeExplorations) <= 0 ? 'disabled' : ''} onclick="explorePet(${petId}, false)">Free Explore</button>
-                                        <div class="button-desc">Explore to boost stats for free!</div>
+                                        <div class="button-desc">Free! Click to boost stats if Free Left > 0.</div>
                                     </div>
                                     <div class="button-wrapper">
                                         <button class="none-explore-button" ${!canExplorePaid ? 'disabled' : ''} onclick="explorePet(${petId}, true)">NONE Explore</button>
-                                        <div class="button-desc">Explore with NONE for better boosts!</div>
+                                        <div class="button-desc">Use 1 Paid Left if > 0 and Next Paid is Now.</div>
                                     </div>
                                     <div class="button-wrapper">
-                                        <button class="increase-explore-button" ${!hasEnoughNone ? 'disabled' : ''} onclick="increaseExplorationCount(${petId})">Add 10 NONE Explorations</button>
-                                        <div class="button-desc">Pay 10000000 NONE for 10 more NONE explores.</div>
+                                        <button class="increase-explore-button" id="increase-${petId}" ${!hasEnoughNone ? 'disabled' : ''} onclick="increaseExplorationCount(${petId}, this)">Add 10 NONE Explorations</button>
+                                        <div class="button-desc">Pay 10000000 NONE in MetaMask to add 10 Paid Left.</div>
                                     </div>
                                 </div>`;
                             myPetsSection.appendChild(petCard);
@@ -280,23 +280,28 @@
             }
         }
 
-        async function increaseExplorationCount(petId) {
+        async function increaseExplorationCount(petId, button) {
             const dogMessage = document.getElementById('dogMessage');
+            const increaseButton = document.getElementById(`increase-${petId}`);
             if (!web3 || !account) { dogMessage.innerText = "Connect wallet!"; return; }
             dogMessage.innerText = "Increasing explorations...";
+            increaseButton.disabled = true;
+            increaseButton.textContent = "Approving...";
             try {
                 const cost = web3.utils.toWei("10000000", "ether");
                 const allowance = await noneContract.methods.allowance(account, contractAddress).call();
                 if (web3.utils.toBN(allowance).lt(web3.utils.toBN(cost))) {
-                    dogMessage.innerText = "Approving NONE...";
                     await noneContract.methods.approve(contractAddress, cost).send({ from: account });
                 }
                 await contract.methods.increaseExplorationCount(petId).send({ from: account });
                 dogMessage.innerText = "Explorations increased by 10!";
-                updateMyPets();
+                increaseButton.textContent = "Add 10 NONE Explorations";
             } catch (error) {
                 dogMessage.innerText = `Failed: ${error.message}`;
+                increaseButton.textContent = "Add 10 NONE Explorations";
             }
+            increaseButton.disabled = false;
+            updateMyPets();
         }
     </script>
 </body>
