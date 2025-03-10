@@ -21,7 +21,7 @@
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Comic Neue', cursive; }
         body { background: var(--background-color); color: var(--text-color); padding: 10px; min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; }
-        .container { width: 100%; max-width: 1200px; background: var(--card-bg); border: var(--pixel-border); border-radius: var(--border-radius); padding: 15px; box-shadow: var(--shadow); overflow: hidden; }
+        .container { width: 100%; max-width: 400px; background: var(--card-bg); border: var(--pixel-border); border-radius: var(--border-radius); padding: 15px; box-shadow: var(--shadow); overflow: hidden; }
         .header { background: var(--primary-color); padding: 10px; border: var(--pixel-border); border-radius: var(--border-radius); text-align: center; font-size: 20px; margin-bottom: 10px; color: var(--header-text-color); box-shadow: var(--shadow); display: flex; justify-content: center; align-items: center; }
         .header img { width: 30px; height: 30px; margin-right: 8px; image-rendering: pixelated; }
         .connect-section { display: flex; justify-content: center; margin-bottom: 10px; }
@@ -29,8 +29,8 @@
         .connect-section button:hover { background: #E67E00; transform: translateY(-2px); }
         .connect-section button:disabled { background: #555555; cursor: not-allowed; transform: none; }
         .section-title { font-size: 18px; margin: 15px 0 10px; text-align: center; color: var(--primary-color); }
-        .pets-section { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 10px; margin-bottom: 15px; padding-bottom: 10px; }
-        .pet-card { background: var(--card-bg); border: var(--pixel-border); border-radius: var(--border-radius); padding: 10px; box-shadow: var(--shadow); transition: transform var(--transition-speed); min-width: 200px; flex: 0 0 auto; }
+        .pets-section { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+        .pet-card { background: var(--card-bg); border: var(--pixel-border); border-radius: var(--border-radius); padding: 10px; box-shadow: var(--shadow); transition: transform var(--transition-speed); width: 100%; }
         .pet-card:hover { transform: translateY(-2px); }
         .pet-card img { width: 40px; height: 40px; margin: 0 auto 8px; border: 2px solid #FF9100; border-radius: 4px; image-rendering: pixelated; display: block; }
         .pet-card .pet-id, .pet-card .pet-info { font-size: 10px; margin-bottom: 5px; color: var(--text-color); text-align: center; }
@@ -49,13 +49,12 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @media (max-width: 480px) { 
             body { padding: 5px; } 
-            .container { padding: 8px; } 
+            .container { max-width: 100%; padding: 8px; } 
             .header { font-size: 16px; padding: 8px; } 
             .header img { width: 25px; height: 25px; } 
             .connect-section button { font-size: 10px; padding: 6px 12px; max-width: 120px; } 
             .section-title { font-size: 14px; margin: 10px 0; } 
-            .pets-section { gap: 8px; } 
-            .pet-card { min-width: 160px; padding: 8px; } 
+            .pet-card { padding: 8px; } 
             .pet-card img { width: 30px; height: 30px; } 
             .pet-card .pet-id, .pet-card .pet-info { font-size: 8px; margin-bottom: 4px; } 
             .attributes-panel { margin-top: 6px; padding: 4px; } 
@@ -220,7 +219,7 @@
                                     <div class="attribute">Energy Core: <span>${petData.attributes.energyCore}</span></div>
                                     <div class="attribute">Code IQ: <span>${petData.attributes.codeIQ}</span></div>
                                     <div class="attribute">Punk Cred: <span>${petData.attributes.punkCred}</span></div>
-                                    <div class="attribute">Color Saturation: <span>${petData.attributes.colorSaturation}</span></div>
+                                    <div class="attribute">Color Sat: <span>${petData.attributes.colorSaturation}</span></div>
                                     <div class="attribute">Chaos Vibe: <span>${petData.attributes.chaosVibe}</span></div>
                                     <div class="attribute">Loyalty Bit: <span>${petData.attributes.loyaltyBit}</span></div>
                                     <div class="attribute">Chain Legacy: <span>${petData.attributes.chainLegacy}</span></div>
